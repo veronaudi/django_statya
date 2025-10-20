@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title %}
+        Base main
+    {% endblock title%}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#">О проекте</a>
+            <a href="#">Контакты</a>
+        </nav>
+    </header>
+    {% block body %}
+        Base body
+    {% endblock body %}
+</body>
+</html>
