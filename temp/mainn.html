@@ -6,4 +6,20 @@
 
 {% block body %}
     <h1>Добро пожаловать в новостной блог!</h1>
+    <a href="{% url 'create_article' %}">Создать статью</a>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h3>
+                    <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+                </h3>
+                <p><strong>Автор:</strong> {{ article.user.name }}</p>
+                <p>{{ article.short_description }}</p>
+                <a href="{% url 'edit_article' article.id %}">Редактировать</a> |
+                <a href="{% url 'delete_article' article.id %}">Удалить</a>
+            </li>
+        {% empty %}
+            <p>Пока нет статей.</p>
+        {% endfor %}
+    </ul>
 {% endblock body %}

@@ -1,0 +1,13 @@
+{% extends 'basee.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+<h2>{{ article.title }}</h2>
+
+<p><b>Дата публикации:</b> {{ article.created_date|date:"d.m.Y H:i" }}</p>
+<hr>
+<p>{{ article.text }}</p>
+
+<a href="{% url 'home' %}">← Назад к списку статей</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'basee.html' %}
+{% block title %}Редактировать статью{% endblock %}
+{% block body %}
+<h2>Редактирование статьи</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>Заголовок: <input type="text" name="title" value="{{ article.title }}" required></p>
+    <p>Краткое описание:
+    <textarea name="short_description" rows="3" cols="50" required>{{ article.short_description }}</textarea>
+    </p>
+    <p>Текст: <textarea name="text" rows="5" cols="50">{{ article.text }}</textarea></p>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

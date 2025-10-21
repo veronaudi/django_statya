@@ -19,8 +19,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
+from statiysate import views
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="mainn.html")),
+    path('', views.article_list, name='home'),
     path('admin/', admin.site.urls),
+    path('article/<int:id>/', views.article_detail, name='article_detail'),
+    path('create-article/', views.create_article, name='create_article'),
+    path('edit-article/<int:id>/', views.edit_article, name='edit_article'),
+    path('delete-article/<int:id>/', views.delete_article, name='delete_article'),
 ]
