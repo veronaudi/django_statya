@@ -45,3 +45,9 @@ def delete_article(request, id):
     article = get_object_or_404(Article, id=id)
     article.delete()
     return redirect('home')
+
+def about(request):
+    return render(request, 'about.html')
+
+def contact(request):
+    return render(request, 'contact.html')

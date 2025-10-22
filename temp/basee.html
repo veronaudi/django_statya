@@ -9,9 +9,9 @@
 <body>
     <header>
         <nav>
-            <a href="#">Главная</a>
-            <a href="#">О проекте</a>
-            <a href="#">Контакты</a>
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'about' %}">О проекте</a>
+            <a href="{% url 'contact' %}">Контакты</a>
         </nav>
     </header>
     {% block body %}
