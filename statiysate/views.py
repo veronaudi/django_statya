@@ -1,4 +1,8 @@
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import get_template
+
+from .forms import ContactForm
 from .models import Article, User
 from django.utils import timezone
 
@@ -49,5 +53,31 @@ def delete_article(request, id):
 def about(request):
     return render(request, 'about.html')
 
+
 def contact(request):
-    return render(request, 'contact.html')
+    context = {}
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            send_message(name, email, message)
+            context = {'success': 1}
+    else:
+        form = ContactForm()
+    context['form'] = form
+    return render(request, 'contact.html', context=context)
+
+def send_message(name, email, message):
+    text = get_template('feedback.html')
+    html = get_template('feedback.html')
+    context = {'name': name, 'email': email, 'message': message}
+    subject = 'Обратрная связь от пользователя'
+    from_email = 'from@example.com'
+    text_content = text.render(context)
+    html_content = html.render(context)
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, ['manager@example.com'])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
