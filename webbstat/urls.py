@@ -24,7 +24,7 @@ from statiysate import views
 urlpatterns = [
     path('', views.article_list, name='home'),
     path('admin/', admin.site.urls),
-    path('article/<int:id>/', views.article_detail, name='article_detail'),
+    path('news/<int:id>/', views.article_detail, name='article_detail'),
     path('create-article/', views.create_article, name='create_article'),
     path('edit-article/<int:id>/', views.edit_article, name='edit_article'),
     path('delete-article/<int:id>/', views.delete_article, name='delete_article'),
