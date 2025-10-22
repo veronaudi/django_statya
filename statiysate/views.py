@@ -53,6 +53,9 @@ def delete_article(request, id):
 def about(request):
     return render(request, 'about.html')
 
+def contactsnum(request):
+    return render(request, 'contactsnum.html')
+
 
 def contact(request):
     context = {}
