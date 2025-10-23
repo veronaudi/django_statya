@@ -9,11 +9,11 @@
     <form class = "form-contact contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
         {% csrf_token %}
         {% if success %}
-            <p style="color: green;">✅ Ваше сообщение успешно отправлено!</p>
+            <p style="color: white;"> Ваше сообщение отправлено! С вами скоро свяжутся</p>
         {% endif %}
         <div class="col-6">
             {% if form.name.errors %}
-                <div class="alert alert-danger">
+                <div>
                     <strong>{{form.name.errors}}</strong>
                 </div>
             {% endif %}
@@ -21,7 +21,7 @@
                 {{ form.name }}
             </div>
         </div>
-    <div class="col-sn-6">
+    <div>
         {% if form.email.errors %}
             <div class="alert alert-danger">
                 <strong>{{form.email.errors}}</strong>

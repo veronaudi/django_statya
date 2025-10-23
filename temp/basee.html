@@ -1,13 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{%block title %}
         Base main
     {% endblock title%}</title>
+    <style>
+        /* Общие стили страницы */
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin:0;
+            background-color: #b1e1a3; /*  */
+            color: #fcfac1;
+        }
+
+        /* Шапка (навигация) */
+        header {
+            background-color: #fc98a4; /* красный */
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        nav {
+            display: inline-block;
+        }
+        /* текст шапки */
+        nav a {
+            text-decoration: none;
+            color: #fcfac1;
+            font-weight: bold;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #fef1c5;
+        }
+
+        /* Контейнер основного содержимого */
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px; /* округлые углы */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* карточка статьи */
+        .article-card {
+            background-color: #fef1c5; /* светло-голубой фон */
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .article-card h2 {
+            color: #2c3e50;
+        }
+
+        /* текст основа*/
+        .article-card p {
+            color: #fc98a4;
+        }
+
+        .page-content {
+            margin: 20px 50px;
+        }
+    </style>
 </head>
 <body>
+    {% load static %}
     <header>
+        <div class="logo">
+            <img src="{% static 'images/wink.png' %}" alt="Логотип">
+            <span>NewsBlog</span>
+        </div>
         <nav>
             <a href="{% url 'home' %}">Главная</a>
             <a href="{% url 'about' %}">О проекте</a>
@@ -15,8 +112,11 @@
             <a href="{% url 'contact' %}">Обратная связь</a>
         </nav>
     </header>
-    {% block body %}
+
+    <div class="page-content">
+        {% block body %}
         Base body
-    {% endblock body %}
+        {% endblock body %}
+    </div>
 </body>
 </html>

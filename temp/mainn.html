@@ -5,21 +5,30 @@
 {% endblock title %}
 
 {% block body %}
-    <h1>Добро пожаловать в новостной блог!</h1>
-    <a href="{% url 'create_article' %}">Создать статью</a>
+    <h1 style="text-align: center; color: #fcfac1;">Добро пожаловать в новостной блог!</h1>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="{% url 'create_article' %}"style="background-color: #fc98a4; color: #fcfac1; padding: 10px 15px; border-radius: 8px; text-decoration: none;">
+        Создать статью</a>
+</div>
     <ul>
-        {% for article in articles %}
-            <li>
-                <h3>
-                    <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
-                </h3>
-                <p><strong>Автор:</strong> {{ article.user.name }}</p>
-                <p>{{ article.short_description }}</p>
-                <a href="{% url 'edit_article' article.id %}">Редактировать</a> |
-                <a href="{% url 'delete_article' article.id %}">Удалить</a>
-            </li>
-        {% empty %}
-            <p>Пока нет статей.</p>
-        {% endfor %}
+        <div class="articles-grid">
+            {% for article in articles %}
+                <div class="article-card">
+                    <h3>
+                        <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+                        {% if article.created_at.date == today %}
+                        <span style="color: #b1e1a3; font-weight: bold;"> Новое!</span>
+                    {% endif %}
+                    </h3>
+                    <p>{{ article.short_description }}</p>
+                    <p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Автор:</strong> {{ article.user.name }}</p>
+                    <a href="{% url 'edit_article' article.id %}">Редактировать</a> |
+                    <a href="{% url 'delete_article' article.id %}">Удалить</a>
+                </div>
+            {% empty %}
+                <p>Пока нет статей.</p>
+            {% endfor %}
+        </div>
     </ul>
 {% endblock body %}

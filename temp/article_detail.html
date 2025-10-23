@@ -4,10 +4,10 @@
 
 {% block body %}
 <h2>{{ article.title }}</h2>
-
-<p><b>Дата публикации:</b> {{ article.created_date|date:"d.m.Y H:i" }}</p>
+<p><b>Автор:</b> {{ article.user.name }}</p>
+<p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
 <hr>
-<p>{{ article.text }}</p>
+<p>{{ article.text|linebreaksbr }}</p>
 
 <a href="{% url 'home' %}">← Назад к списку статей</a>
 {% endblock %}

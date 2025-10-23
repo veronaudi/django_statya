@@ -9,7 +9,8 @@ from django.utils import timezone
 
 def article_list(request):
     articles = Article.objects.all()
-    return render(request, 'mainn.html', {'articles': articles})
+    today = timezone.now().date()
+    return render(request, 'mainn.html', {'articles': articles, 'today': today})
 
 
 def article_detail(request, id):
