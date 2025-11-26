@@ -5,43 +5,43 @@
 <h2>Связаться с нами</h2>
 
 
-<div class="col-lg-8">
-    <form class = "form-contact contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+<div>
+    <form action="" method="post" id="contactForm" novalidate="novalidate">
         {% csrf_token %}
         {% if success %}
-            <p style="color: white;"> Ваше сообщение отправлено! С вами скоро свяжутся</p>
+            <p style="color: white;"> Ваше сообщение отправлено! С вами скоро свяжутся.</p>
         {% endif %}
-        <div class="col-6">
+        <div>
             {% if form.name.errors %}
                 <div>
                     <strong>{{form.name.errors}}</strong>
                 </div>
             {% endif %}
-            <div class="form-group">
+            <div>
                 {{ form.name }}
             </div>
         </div>
     <div>
         {% if form.email.errors %}
-            <div class="alert alert-danger">
+            <div>
                 <strong>{{form.email.errors}}</strong>
             </div>
         {% endif %}
-        <div class="form-group">
+        <div>
             {{ form.email }}
         </div>
     </div>
-    <div class="col-sn-12">
+    <div>
         {% if form.message.errors %}
-            <div class="alert alert-danger">
+            <div>
                 <strong>{{form.message.errors}}</strong>
             </div>
         {% endif %}
-        <div class="form-group">
+        <div>
             {{ form.message }}
         </div>
     </div>
-    <button type="submit">Отправить</button>
+    <button>Отправить</button>
     </form>
 </div>
 

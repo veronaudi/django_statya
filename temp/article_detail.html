@@ -5,9 +5,31 @@
 {% block body %}
 <h2>{{ article.title }}</h2>
 <p><b>Автор:</b> {{ article.user.name }}</p>
+<p><strong>Категория:</strong> {{ article.get_category_display }}</p>
 <p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
 <hr>
 <p>{{ article.text|linebreaksbr }}</p>
 
 <a href="{% url 'home' %}">← Назад к списку статей</a>
+<hr>
+<h3>Комментарии</h3>
+
+{% if comments %}
+    {% for c in comments %}
+        <div style="margin-bottom: 15px;">
+            <p><b>{{ c.author_name }}</b> ({{ c.date|date:"d.m.Y H:i" }})</p>
+            <p>{{ c.text|linebreaksbr }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Пока нет комментариев.</p>
+{% endif %}
+
+<h3>Оставить комментарий</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
 {% endblock %}

@@ -17,12 +17,13 @@ Including another URLconf
 
 
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic import TemplateView
 from statiysate import views
 
 urlpatterns = [
-    path('', views.article_list, name='home'),
+    path('', views.article, name='home'),
     path('admin/', admin.site.urls),
     path('news/<int:id>/', views.article_detail, name='article_detail'),
     path('create-article/', views.create_article, name='create_article'),
@@ -31,4 +32,9 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
     path('contactsnum', views.contactsnum, name='contactsnum'),
+    path('articles/', views.article_list, name='article_list'),
+    path('articles/<str:category>/', views.article_by_category, name='article_by_category'),
+    path('register/', views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name="auth/login.html"), name="login"),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name="logout"),
 ]

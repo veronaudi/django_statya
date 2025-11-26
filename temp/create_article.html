@@ -5,6 +5,13 @@
 <form method="post">
     {% csrf_token %}
     <p>Заголовок: <input type="text" name="title" required></p>
+    <p>Категория:
+        <select name="category" required>
+            {% for value, label in categories %}
+                <option value="{{ value }}" {% if article.category == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </p>
     <p>Краткое описание: <textarea name="short_description" rows="3" cols="50"></textarea></p>
     <p>Текст: <textarea name="text" rows="8" cols="70"></textarea></p>
 

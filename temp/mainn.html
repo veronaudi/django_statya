@@ -9,6 +9,8 @@
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="{% url 'create_article' %}"style="background-color: #fc98a4; color: #fcfac1; padding: 10px 15px; border-radius: 8px; text-decoration: none;">
         Создать статью</a>
+    <a href="{% url 'article_list' %}"style="background-color: #fc98a4; color: #fcfac1; padding: 10px 15px; border-radius: 8px; text-decoration: none;">
+        Поиск</a>
 </div>
     <ul>
         <div class="articles-grid">
@@ -20,7 +22,9 @@
                         <span style="color: #b1e1a3; font-weight: bold;"> Новое!</span>
                     {% endif %}
                     </h3>
+
                     <p>{{ article.short_description }}</p>
+                    <p><strong>Категория:</strong> {{ article.get_category_display }}</p>
                     <p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
                     <p><strong>Автор:</strong> {{ article.user.name }}</p>
                     <a href="{% url 'edit_article' article.id %}">Редактировать</a> |

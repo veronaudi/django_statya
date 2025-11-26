@@ -9,6 +9,15 @@
     <textarea name="short_description" rows="3" cols="50" required>{{ article.short_description }}</textarea>
     </p>
     <p>Текст: <textarea name="text" rows="5" cols="50">{{ article.text }}</textarea></p>
+    <p>Категория:
+        <select name="category" required>
+            {% for value, label in categories %}
+                <option value="{{ value }}" {% if article.category == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </p>
     <button type="submit">Сохранить</button>
 </form>
 {% endblock %}

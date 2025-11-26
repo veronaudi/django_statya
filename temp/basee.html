@@ -10,13 +10,13 @@
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             margin:0;
-            background-color: #b1e1a3; /*  */
+            background-color: #b1e1a3; /* зеленый */
             color: #fcfac1;
         }
 
         /* Шапка (навигация) */
         header {
-            background-color: #fc98a4; /* красный */
+            background-color: #fc98a4; /* розовый */
             padding: 15px 0;
             display: flex;
             align-items: center;
@@ -78,19 +78,25 @@
 
         /* карточка статьи */
         .article-card {
-            background-color: #fef1c5; /* светло-голубой фон */
+            background-color: #fef1c5; /* бежевый */
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
+            box-sizing: border-box;
+            max-width: 800px;
+            max-higth: 800px;
         }
 
         .article-card h2 {
             color: #2c3e50;
+            max-width: 100%;
         }
 
-        /* текст основа*/
+        /* текст статья*/
         .article-card p {
             color: #fc98a4;
+            white-space: pre-wrap;
+            max-width: 100%;
         }
 
         .page-content {

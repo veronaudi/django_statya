@@ -1,0 +1,32 @@
+{% extends "basee.html" %}
+
+{% block body %}
+<h1>Список статей {% if selected_category %} ({{ selected_category }}){% endif %}</h1>
+
+<form method="get" action="/articles/">
+  <input type="text" name="q" placeholder="Поиск по названию" value="{{ query }}">
+  <button type="submit">Поиск</button>
+</form>
+
+<nav>
+  <a href="/articles/">Все</a> |
+  <a href="/articles/tech/">Технологии</a> |
+  <a href="/articles/sport/">Спорт</a> |
+  <a href="/articles/news/">Новости</a> |
+  <a href="/articles/art/">Искусство</a> |
+  <a href="/articles/other/">Другое</a>
+</nav>
+
+<hr>
+
+{% for article in articles %}
+  <div>
+    <a href="{% url 'article_detail' article.id %}"><h3>{{ article.title }}</h3></a>
+    <p><b>Категория:</b> {{ article.get_category_display }}</p>
+    <p><i>Автор:</i> {{ article.user.name }}</p>
+    <hr>
+  </div>
+{% empty %}
+  <p>Нет статей.</p>
+{% endfor %}
+{% endblock %}
