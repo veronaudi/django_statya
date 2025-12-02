@@ -17,26 +17,27 @@ def article(request):
     today=timezone.now().date()
     return render(request, 'mainn.html', {'articles': articles, 'today': today})
 
+@login_required
 def create_article(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         short_description=request.POST.get('short_description')
-        text= request.POST.get('text'),
+        text= request.POST.get('text')
         category = request.POST['category']
         #author_id = request.POST.get('author_id')
-        user = User.objects.first()
+        user = request.user
         Article.objects.create(
             title=title,
             short_description=short_description,
             text=text,
-            user=user,
+            user=request.user,
             category=category
         )
         return redirect('home')
     users = User.objects.all()
     return render(request, 'create_article.html', {'categories': Article.CATEGORY_CHOICES})
 
-
+@login_required
 def edit_article(request, id):
     article = get_object_or_404(Article, id=id)
     if request.method == 'POST':
@@ -48,7 +49,7 @@ def edit_article(request, id):
         return redirect('home')
     return render(request, 'edit_article.html', {'article': article, 'categories': Article.CATEGORY_CHOICES})
 
-
+@login_required
 def delete_article(request, id):
     article=get_object_or_404(Article, id=id)
     article.delete()

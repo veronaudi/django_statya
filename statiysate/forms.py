@@ -1,5 +1,6 @@
 from django import forms
-from .models import Comment
+from .models import Comment, User
+from django.contrib.auth.forms import UserCreationForm
 
 
 class ContactForm(forms.Form):
@@ -10,8 +11,32 @@ class ContactForm(forms.Form):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ["author_name", "text"]
+        fields=["author_name", "text"]
+        widgets={"author_name": forms.TextInput(attrs={"placeholder": "Ваше имя"}), "text": forms.Textarea(attrs={"placeholder": "Ваш комментарий"}),}
+
+class RegisterForm(UserCreationForm):
+    username = None  # <- ОТКЛЮЧАЕМ username !!!
+
+    password1 = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+    password2 = forms.CharField(
+        label="Повторите пароль",
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+
+    class Meta:
+        model = User
+        fields = ["name", "email"]  # именно твои поля!!!
         widgets = {
-            "author_name": forms.TextInput(attrs={"placeholder": "Ваше имя"}),
-            "text": forms.Textarea(attrs={"placeholder": "Ваш комментарий"}),
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
         }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = None  # на всякий случай
+        if commit:
+            user.save()
+        return user

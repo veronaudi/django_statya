@@ -112,6 +112,18 @@
             <span>NewsBlog</span>
         </div>
         <nav>
+            {% if user.is_authenticated %}
+                <p>Привет, {{ user.username }}!</p>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none;border:none;color:#fcfac1;font-weight:bold;cursor:pointer;">
+                        Выход
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'register' %}">Регистрация</a>
+            {% endif %}
             <a href="{% url 'home' %}">Главная</a>
             <a href="{% url 'about' %}">О проекте</a>
             <a href="{% url 'contactsnum' %}">Контакты</a>

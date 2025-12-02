@@ -4,7 +4,7 @@
 
 {% block body %}
 <h2>{{ article.title }}</h2>
-<p><b>Автор:</b> {{ article.user.name }}</p>
+<p><b>Автор:</b> {{ article.user.username }}</p>
 <p><strong>Категория:</strong> {{ article.get_category_display }}</p>
 <p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
 <hr>

@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
-    name=models.CharField(max_length=100, verbose_name="Имя пользователя")
-    email=models.EmailField(unique=True, verbose_name="Email")
-    hashed_password=models.CharField(max_length=255, verbose_name="Хешированный пароль")
-    created_date=models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
+class User(AbstractUser):
+    username = None
+    name=models.CharField(max_length=100, unique=True, verbose_name="Имя пользователя")
 
+    USERNAME_FIELD = 'name'  # теперь логин — это name
+    REQUIRED_FIELDS = ['email']  # email обязателен
     class Meta:
         verbose_name="Пользователь"
         verbose_name_plural= "Пользователи"
