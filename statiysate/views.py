@@ -37,7 +37,7 @@ def create_article(request):
     users = User.objects.all()
     return render(request, 'create_article.html', {'categories': Article.CATEGORY_CHOICES})
 
-@login_required
+@login_required(login_url='login')
 def edit_article(request, id):
     article = get_object_or_404(Article, id=id)
     if request.method == 'POST':
