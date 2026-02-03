@@ -31,7 +31,7 @@
                     <p>{{ article.short_description }}</p>
                     <p><strong>Категория:</strong> {{ article.get_category_display }}</p>
                     <p><strong>Дата опубликования:</strong> {{ article.created_at|date:"d.m.Y H:i" }}</p>
-                    <p><strong>Автор:</strong> {{ article.user.username }}</p>
+                    <p><strong>Автор:</strong> {{ article.user.name }}</p>
                     <a href="{% url 'edit_article' article.id %}">Редактировать</a> |
                     <a href="{% url 'delete_article' article.id %}">Удалить</a>
                 </div>

@@ -3,11 +3,11 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    username = None
+    username=None
     name=models.CharField(max_length=100, unique=True, verbose_name="Имя пользователя")
 
-    USERNAME_FIELD = 'name'  # теперь логин — это name
-    REQUIRED_FIELDS = ['email']  # email обязателен
+    USERNAME_FIELD = 'name'
+    REQUIRED_FIELDS = ['email']
     class Meta:
         verbose_name="Пользователь"
         verbose_name_plural= "Пользователи"
@@ -23,10 +23,11 @@ class Article(models.Model):
     created_at=models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles", verbose_name="Автор", default=1)
     CATEGORY_CHOICES = [
-        ("tech", "Технологии"),
-        ("sport", "Спорт"),
-        ("news", "Новости"),
-        ("art", "Искусство"),
+        ("bit", "Быт"),
+        ("studies", "Учеба"),
+        ("work", "Работа"),
+        ("food", "Еда"),
+        ("emergency", "ЧП"),
         ("other", "Другое"),
     ]
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default="other",verbose_name="Категория")

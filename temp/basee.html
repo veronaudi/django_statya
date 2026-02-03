@@ -113,7 +113,7 @@
         </div>
         <nav>
             {% if user.is_authenticated %}
-                <p>Привет, {{ user.username }}!</p>
+                <p>Привет, {{ user.name }}!</p>
                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" style="background:none;border:none;color:#fcfac1;font-weight:bold;cursor:pointer;">

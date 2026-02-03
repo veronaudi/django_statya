@@ -37,7 +37,7 @@ def create_article(request):
     users = User.objects.all()
     return render(request, 'create_article.html', {'categories': Article.CATEGORY_CHOICES})
 
-@login_required(login_url='login')
+@login_required
 def edit_article(request, id):
     article = get_object_or_404(Article, id=id)
     if request.method == 'POST':
@@ -91,7 +91,6 @@ def send_message(name, email, message):
     msg.send()
 
 def article_list(request):
-    """Показать все статьи, с возможностью поиска"""
     query = request.GET.get('q', '')
     if query:
         articles = Article.objects.filter(title__icontains=query)
@@ -101,7 +100,6 @@ def article_list(request):
 
 
 def article_by_category(request, category):
-    """Фильтрация статей по категории"""
     valid_categories = [c[0] for c in Article.CATEGORY_CHOICES]
     if category not in valid_categories:
         return HttpResponseNotFound("<h2>Категория не найдена</h2>")
@@ -138,7 +136,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # автоматический вход после регистрации
+            login(request, user)  # автоматический вход после реги
             return redirect('home')
     else:
         form = RegisterForm()

@@ -1,7 +1,7 @@
 {% extends "basee.html" %}
 
 {% block body %}
-<h1>Список статей {% if selected_category %} ({{ selected_category }}){% endif %}</h1>
+<h1>Список статей</h1>
 
 <form method="get" action="/articles/">
   <input type="text" name="q" placeholder="Поиск по названию" value="{{ query }}">
@@ -9,12 +9,13 @@
 </form>
 
 <nav>
-  <a href="/articles/">Все</a> |
-  <a href="/articles/tech/">Технологии</a> |
-  <a href="/articles/sport/">Спорт</a> |
-  <a href="/articles/news/">Новости</a> |
-  <a href="/articles/art/">Искусство</a> |
-  <a href="/articles/other/">Другое</a>
+    <a href="/articles/">Все</a> |
+    <a href="/articles/bit/">Быт</a> |
+    <a href="/articles/studies/">Учёба</a> |
+    <a href="/articles/work/">Работа</a> |
+    <a href="/articles/food/">Еда</a> |
+    <a href="/articles/emergency/">ЧП</a> |
+    <a href="/articles/other/">Другое</a>
 </nav>
 
 <hr>
