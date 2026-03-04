@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'statiysate.apps.StatiysateConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'statiysate.middleware.JWTAuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'webbstat.urls'
@@ -138,5 +141,7 @@ LOGIN_REDIRECT_URL = '/'
 JWT_SECRET_KEY = SECRET_KEY
 JWT_ALGORITHM = "HS256"
 
-ACCESS_TOKEN_LIFETIME = datetime.timedelta(minutes=5)
+ACCESS_TOKEN_LIFETIME = datetime.timedelta(minutes=40)
 REFRESH_TOKEN_LIFETIME = datetime.timedelta(days=1)
+
+CORS_ALLOW_ALL_ORIGINS = True

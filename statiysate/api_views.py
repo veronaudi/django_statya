@@ -3,9 +3,15 @@ from .models import Article
 from .models import Comment
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .jwt_utils import create_access_token, create_refresh_token
+from .jwt_utils import decode_token
+import jwt
+from django.contrib.auth import get_user_model
 
 def api_article_list(request):
     articles = Article.objects.all().values("id", "title", "short_description", "category", "created_at")
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "Unauthorized"}, status=401)
     return JsonResponse(list(articles), safe=False)
 
 
@@ -163,3 +169,50 @@ def comment_delete(request, id):
 
     comment.delete()
     return JsonResponse({"message": "Коммент удален"})
+
+@csrf_exempt
+def token_obtain(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Use POST"}, status=405)
+
+    data = json.loads(request.body)
+    name = data.get("name")
+    password = data.get("password")
+    #user = authenticate(name=name, password=password)
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(name=name)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Invalid credentials"}, status=401)
+    if not user:
+        return JsonResponse({"error": "Invalid credentials"}, status=401)
+
+    return JsonResponse({
+        "access": create_access_token(user.id),
+        "refresh": create_refresh_token(user.id)
+    })
+
+
+@csrf_exempt
+def token_refresh(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Use POST"}, status=405)
+
+    data = json.loads(request.body)
+    refresh = data.get("refresh")
+
+    try:
+        payload = decode_token(refresh)
+        if payload["type"] != "refresh":
+            return JsonResponse({"error": "Invalid token type"}, status=401)
+
+        new_access = create_access_token(payload["user_id"])
+        return JsonResponse({"access": new_access})
+
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({"error": "Refresh token expired"}, status=401)
+
+    except jwt.InvalidTokenError:
+        return JsonResponse({"error": "Invalid token"}, status=401)
+
