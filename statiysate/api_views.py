@@ -2,6 +2,10 @@ from django.http import JsonResponse
 from .models import Article
 from .models import Comment
 from .models import User
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from .serializers import ArticleSerializer
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .jwt_utils import create_access_token, create_refresh_token
@@ -9,19 +13,32 @@ from .jwt_utils import decode_token
 import jwt
 from django.contrib.auth import get_user_model
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def api_article_list(request):
     articles = Article.objects.all().values("id", "title", "short_description", "category", "created_at")
-    if not request.user.is_authenticated:
-        return JsonResponse({"error": "Unauthorized"}, status=401)
-    return JsonResponse(list(articles), safe=False)
+    #if not request.user.is_authenticated:
+        #return JsonResponse({"error": "Unauthorized"}, status=401)
+    #return JsonResponse(list(articles), safe=False)
+    return Response(list(articles))
 
-
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def api_article_detail(request, id):
     try:
-        article = Article.objects.values("id", "title", "short_description", "text", "category", "created_at", "user_id").get(id=id)
-        return JsonResponse(article)
+        article = Article.objects.get(id=id)
+        data = {
+            'id': article.id,
+            'title': article.title,
+            'short_description': article.short_description,
+            'text': article.text,
+            'category': article.category,
+            'created_at': article.created_at,
+            'user_name': article.user.name if article.user else None,
+        }
+        return Response(data)
     except Article.DoesNotExist:
-        return JsonResponse({"error": "Статьи нет!"}, status=404)
+        return Response({"error": "Статьи нет!"}, status=404)
 
 @csrf_exempt  #отключение защиты
 def api_create_article(request):
