@@ -1,6 +1,27 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import BaseUserManager
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, name, password=None, **extra_fields):
+        if not name:
+            raise ValueError("The Name field must be set")
+        user = self.model(name=name, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, name, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(name, password, **extra_fields)
 
 class User(AbstractUser):
     username=None
@@ -8,6 +29,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'name'
     REQUIRED_FIELDS = ['email']
+
+    objects = CustomUserManager()
     class Meta:
         verbose_name="Пользователь"
         verbose_name_plural= "Пользователи"

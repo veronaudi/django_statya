@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from .models import Article
 from .models import Comment
+from .models import User
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .jwt_utils import create_access_token, create_refresh_token
@@ -185,7 +186,7 @@ def token_obtain(request):
         user = User.objects.get(name=name)
     except User.DoesNotExist:
         return JsonResponse({"error": "Invalid credentials"}, status=401)
-    if not user:
+    if not user.check_password(password):
         return JsonResponse({"error": "Invalid credentials"}, status=401)
 
     return JsonResponse({
@@ -216,3 +217,24 @@ def token_refresh(request):
     except jwt.InvalidTokenError:
         return JsonResponse({"error": "Invalid token"}, status=401)
 
+@csrf_exempt
+def register(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Use POST"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        name = data.get("name")
+        password = data.get("password")
+
+        if not name or not password:
+            return JsonResponse({"error": "Name and password required"}, status=400)
+
+        if User.objects.filter(name=name).exists():
+            return JsonResponse({"error": "User already exists"}, status=400)
+
+        user = User.objects.create_user(name=name, password=password)
+        return JsonResponse({"message": "User created", "user_id": user.id}, status=201)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

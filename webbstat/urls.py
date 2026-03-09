@@ -53,6 +53,7 @@ urlpatterns = [
     path("api/comment/<int:id>/delete/", api_views.comment_delete),
     path("api/token/", api_views.token_obtain),
     path("api/token/refresh/", api_views.token_refresh),
+    path("api/register/", api_views.register),
 
 
 
