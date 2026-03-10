@@ -54,6 +54,7 @@ urlpatterns = [
     path("api/token/", api_views.token_obtain),
     path("api/token/refresh/", api_views.token_refresh),
     path("api/register/", api_views.register),
+    path('api/user/', api_views.get_current_user),
 
 
 

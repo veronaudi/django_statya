@@ -255,3 +255,25 @@ def register(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+@csrf_exempt
+def get_current_user(request):
+    if request.method != "GET":
+        return JsonResponse({"error": "Use GET"}, status=405)
+
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return JsonResponse({"error": "No token"}, status=401)
+
+    token = auth_header.split(' ')[1]
+    try:
+        payload = decode_token(token)
+        user = User.objects.get(id=payload['user_id'])
+        return JsonResponse({
+            'id': user.id,
+            'name': user.name,
+            'email': getattr(user, 'email', ''),
+        })
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=401)
